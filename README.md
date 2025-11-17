@@ -2,11 +2,7 @@
 
 A sophisticated multi-agent system for comprehensive AI safety testing and vulnerability assessment using Google's Gemini models and Agent Development Kit (ADK).
 
-                        ┌─────────────────────────────────────────────────────────────────┐
-                        │                             Owner                               │
-                        │              [Ankul Jain](https://github.com/ankuljain09)       │
-                        └─────────────────────────────────────────────────────────────────┘
-
+**Created by [Ankul Jain](https://github.com/ankuljain09)**
 
 ## 🎯 Project Overview
 
