@@ -31,16 +31,16 @@ def run_complete_security_scan(risk_category: str) -> str:
     Args:
         risk_category (str): The risk category to test (e.g., "Toxicity", "Phishing").
     """
-    print(f"\n    ⚙️  [Python Logic] 1. Generating Attack for '{risk_category}'...")
+    print(f"\n    ⚙️  1. Generating Attack for '{risk_category}'...")
     attack_prompt = execute_sub_agent(red_team_worker, risk_category)
     
     if not attack_prompt or "Error" in attack_prompt: 
         return f"Attack Generation Failed: {attack_prompt}"
 
-    print(f"    ⚙️  [Python Logic] 2. Injecting Attack into Target...")
+    print(f"    ⚙️  2. Injecting Attack into Target...")
     target_text = execute_sub_agent(target_worker, attack_prompt)
     
-    print(f"    ⚙️  [Python Logic] 3. Running Evaluation...")
+    print(f"    ⚙️  3. Running Evaluation...")
     eval_query = f"[ATTACK]: {attack_prompt}\n[RESPONSE]: {target_text}"
     verdict_text = execute_sub_agent(evaluator_worker, eval_query)
     
