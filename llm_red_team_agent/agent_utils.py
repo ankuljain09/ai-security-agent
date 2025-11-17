@@ -31,7 +31,7 @@ def execute_sub_agent(agent: LlmAgent, prompt_text: str) -> str:
         session_service = InMemorySessionService()        
         session_id = "temp_task_session"
         await session_service.create_session(
-            app_name="ap", 
+            app_name="app", 
             user_id="internal_bot", 
             session_id=session_id
         )

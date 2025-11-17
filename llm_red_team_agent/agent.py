@@ -1,7 +1,7 @@
 from google.adk.agents import LlmAgent
 from google.genai import types
 from .tools import run_complete_security_scan
-from ..config import config
+from .config import config
 
 ATOMIC_AGENT_PROMPT = """
 You are an AI Security Manager.
