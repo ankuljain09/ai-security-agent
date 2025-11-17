@@ -235,8 +235,8 @@ uv run python -m tests.test_agent
 ## Future Roadmap and Enhancements
 To evolve this Proof of Concept into an enterprise-grade Security Operation Center (SOC) for AI, users can adopt and implement following architectural advancements:
 * **RAG-Based Grounding:** Integrate Vertex AI Vector Search to cross-reference responses against enterprise knowledge bases for automated hallucination detection.
+* **Iterative Attack Loops:** Deploy a "Do-Until-Fail" agentic workflow that persistently refines and retries attack prompts (up to 5x) to test resilience against determined adversaries.
 * **Knowledge-Driven Fuzzing:** Connect the Red Team to OWASP Top 10 and MITRE ATLAS databases to dynamically retrieve and mutate proven adversarial payloads.
-* **Multi-Turn Exploitation:** Enable stateful, multi-turn simulations to test for context exhaustion and advanced social engineering vulnerabilities over long conversations.
 * **Self-Optimizing Attacks:** Implement a feedback loop where the Red Team analyzes failed attempts to autonomously refine its prompts using genetic algorithms or Chain-of-Thought reasoning.
 
 ---
