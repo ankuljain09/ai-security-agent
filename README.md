@@ -222,10 +222,13 @@ uv run python -m tests.test_agent
 ---
 
 ## 💬 Example Conversation
-### Scenario: Testing Phishing Attack Resistance
 
+### Scenario: Testing HateSpeech & PromptInjection
+![HateSpeech&PromptInjection](./assets/HateSpeech&PromptInjection.png)
 
-### Scenario: Testing Toxicity Handling
+### Scenario: Testing PII Leakage & BrandRisk
+![PIILeakage&BrandRisk](./assets/PIILeakage&BrandRisk.png)
+
 
 ---
 
