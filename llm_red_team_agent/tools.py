@@ -12,28 +12,45 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import glob
-import os
+from .agent_utils import execute_sub_agent
+from .sub_agents import red_team, target, evaluator
 
+# --- Initialize Workers ---
+red_team_worker = red_team.create()
+target_worker = target.create()
+evaluator_worker = evaluator.create()
 
-def save_security_report_to_file(security_report: str, filename: str) -> dict:
-    """Saves the security report to a file."""
-    with open(filename, "w") as f:
-        f.write(security_report)
-    return {"status": "success"}
+def run_complete_security_scan(risk_category: str) -> str:
+    """
+    Performs a full, multi-step security audit for a given risk category.
+    
+    Steps:
+    1. Red Team generates attack.
+    2. Target System is attacked.
+    3. Evaluator judges the result.
+    Args:
+        risk_category (str): The risk category to test (e.g., "Toxicity", "Phishing").
+    """
+    print(f"\n    ⚙️  [Python Logic] 1. Generating Attack for '{risk_category}'...")
+    attack_prompt = execute_sub_agent(red_team_worker, risk_category)
+    
+    if not attack_prompt or "Error" in attack_prompt: 
+        return f"Attack Generation Failed: {attack_prompt}"
 
+    print(f"    ⚙️  [Python Logic] 2. Injecting Attack into Target...")
+    target_text = execute_sub_agent(target_worker, attack_prompt)
+    
+    print(f"    ⚙️  [Python Logic] 3. Running Evaluation...")
+    eval_query = f"[ATTACK]: {attack_prompt}\n[RESPONSE]: {target_text}"
+    verdict_text = execute_sub_agent(evaluator_worker, eval_query)
+    
+    #Truncating the target attack conversation for brevity
+    return f"""
+    --- SECURITY AUDIT RESULT ---
+    • Scenario: {risk_category}
+    • Attack Attempt: "{attack_prompt[:100]}..." 
+    • Target Behavior: "{target_text[:100]}..."
+    • Final Verdict: {verdict_text}
+    -----------------------------
+    """
 
-def analyze_codebase(directory: str) -> dict:
-    """Analyzes the codebase in the given directory."""
-    files = glob.glob(os.path.join(directory, "**"), recursive=True)
-    codebase_context = ""
-    for file in files:
-        if os.path.isfile(file):
-            codebase_context += f"""- **{file}**:"""
-            try:
-                with open(file, "r", encoding="utf-8") as f:
-                    codebase_context += f.read()
-            except UnicodeDecodeError:
-                with open(file, "r", encoding="latin-1") as f:
-                    codebase_context += f.read()
-    return {"codebase_context": codebase_context}

@@ -12,10 +12,56 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from google.adk.agents.callback_context import CallbackContext
-from google.genai.types import Content
+import asyncio
+from concurrent.futures import ThreadPoolExecutor
+from google.adk.agents import LlmAgent
+from google.adk.runners import Runner
+from google.adk.sessions import InMemorySessionService
+from google.genai import types
 
+def execute_sub_agent(agent: LlmAgent, prompt_text: str) -> str:
+    """
+    Runs a sub-agent by spinning up a temporary async loop in a SEPARATE THREAD.
+    Args:
+        agent (LlmAgent): The sub-agent to run.
+        prompt_text (str): The prompt to send to the sub-agent.
+    """
+    
+    async def _run_internal():
+        session_service = InMemorySessionService()        
+        session_id = "temp_task_session"
+        await session_service.create_session(
+            app_name="ap", 
+            user_id="internal_bot", 
+            session_id=session_id
+        )
 
-def suppress_output_callback(callback_context: CallbackContext) -> Content:
-    """Suppresses the output of the agent by returning an empty Content object."""
-    return Content()
+        # Initialize Runner
+        runner = Runner(
+            agent=agent,
+            app_name="app",
+            session_service=session_service
+        )
+        
+        content = types.Content(role="user", parts=[types.Part(text=prompt_text)])
+        result_text = ""
+
+        # Run the Loop
+        async for event in runner.run_async(
+            new_message=content,
+            user_id="internal_bot", 
+            session_id=session_id
+        ):
+            if event.content and event.content.parts:
+                for part in event.content.parts:
+                    if part.text:
+                        result_text = part.text
+        return result_text
+
+    # Execute the async logic in a separate thread to avoid loop conflicts
+    try:
+        with ThreadPoolExecutor() as executor:
+            future = executor.submit(asyncio.run, _run_internal())
+            return future.result()
+    except Exception as e:
+        return f"Error running sub-agent: {str(e)}"
