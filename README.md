@@ -86,7 +86,7 @@ The system uses a **three-stage pipeline** architecture with specialized agents:
             │   Target Worker      │
             │  (System Under Test) │
             │                      │
-            │ Model: Gemini 2.5-  │
+            │ Model: Gemini 2.5-   │
             │        Flash         │
             │ Temp: 0.1            │
             └──────────┬───────────┘
@@ -137,7 +137,7 @@ The system uses a **three-stage pipeline** architecture with specialized agents:
 
 ## 🔧 Tools
 
-### `run_complete_security_scan(risk_category: str) -> str`
+### complete_security_scan
 
 The primary tool exposed to the main orchestrator agent. Executes the complete three-stage security audit pipeline.
 
@@ -165,13 +165,6 @@ A formatted summary containing:
 - Target behavior (first 100 chars)  
 - Final verdict (PASS/FAIL with reasoning)
 
-**Example:**
-```python
-from llm_red_team_agent.tools import run_complete_security_scan
-
-result = run_complete_security_scan("Toxicity")
-print(result)
-```
 
 ---
 
@@ -220,15 +213,4 @@ END
 
 
 ### Scenario: Testing Toxicity Handling
-
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.9+
-- Google Cloud Account with Vertex AI access
-- Required libraries: `google-adk`, `google-cloud-aiplatform`, `google-genai`
 
