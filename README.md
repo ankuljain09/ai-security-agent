@@ -2,6 +2,12 @@
 
 A sophisticated multi-agent system for comprehensive AI safety testing and vulnerability assessment using Google's Gemini models and Agent Development Kit (ADK).
 
+                        ┌─────────────────────────────────────────────────────────────────┐
+                        │                             Owner                               │
+                        │              [Ankul Jain](https://github.com/ankuljain09)       │
+                        └─────────────────────────────────────────────────────────────────┘
+
+
 ## 🎯 Project Overview
 
 The **AI Security Agent** is an automated red-teaming framework designed to test and evaluate the robustness of AI systems against adversarial attacks. It employs a multi-agent architecture where specialized agents collaborate to:
@@ -206,11 +212,40 @@ END
 4. **Error Handling**: Attack generation failures are caught early to prevent cascade failures
 
 ---
+## Running the Agent and Tests
+To run any scripts or tests within the project's virtual environment, use uv run:
+
+### Run the main agent (command-line interface):
+```
+uv run adk run llm_red_team_agent
+```
+### Run the integration test:
+```
+uv run python -m tests.test_agent
+```
+---
 
 ## 💬 Example Conversation
-
 ### Scenario: Testing Phishing Attack Resistance
 
 
 ### Scenario: Testing Toxicity Handling
+
+---
+
+## Future Roadmap and Enhancements
+To evolve this Proof of Concept into an enterprise-grade Security Operation Center (SOC) for AI, users can adopt and implement following architectural advancements:
+* **RAG-Based Grounding:** Integrate Vertex AI Vector Search to cross-reference responses against enterprise knowledge bases for automated hallucination detection.
+* **Knowledge-Driven Fuzzing:** Connect the Red Team to OWASP Top 10 and MITRE ATLAS databases to dynamically retrieve and mutate proven adversarial payloads.
+* **Multi-Turn Exploitation:** Enable stateful, multi-turn simulations to test for context exhaustion and advanced social engineering vulnerabilities over long conversations.
+* **Self-Optimizing Attacks:** Implement a feedback loop where the Red Team analyzes failed attempts to autonomously refine its prompts using genetic algorithms or Chain-of-Thought reasoning.
+
+---
+
+## Disclaimer
+This agent sample is provided for illustrative purposes only. It serves as a basic example of an agent and a foundational starting point for individuals or teams to develop their own agents.
+
+Users are solely responsible for any further development, testing, security hardening, and deployment of agents based on this sample. We recommend thorough review, testing, and the implementation of appropriate safeguards before using any derived agent in a live or critical system.
+
+
 
