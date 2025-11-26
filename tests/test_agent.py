@@ -15,9 +15,8 @@
 import asyncio
 import sys
 import os
+import traceback
 
-# Add project root to path so we can import the agent package
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
 from google.genai import types
@@ -77,10 +76,8 @@ async def run_security_suite():
                             # Optional: Print intermediate thoughts if you want
                             # print(f"  > Thought: {part.text}")
 
-        except Exception as e:
-            print(f"❌ Runner Error: {e}")
-            # Print the full traceback for debugging if needed
-            import traceback
+        except (RuntimeError, ValueError, TypeError) as e:
+            print(f"❌ Runner Error ({e.__class__.__name__}): {e}")
             traceback.print_exc()
             continue
 
